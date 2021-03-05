@@ -172,12 +172,13 @@ function draw(area) {
     //-----------------------------AXES-----------------------------//
         chart.append("g")
             .attr("class", "xaxis")
-            .attr("transform", "translate(50," + height + ")")
+            .attr("transform", "translate(50," + 170 + ")")
             .call(xaxis.tickFormat(d3.timeFormat("%b %y"))).style("font-size", "6px");
 
             chart.append("g")
             .attr("class", "yaxis")
-            .attr("transform", "translate(50)")
+            .attr("transform", "translate(50,10)")  
+            // add 10 down
             .call(yaxis).style("font-size", "6px")
             .append("text")
             .attr("transform", "rotate(-90)")
@@ -194,7 +195,7 @@ function draw(area) {
 
         lines.append("path")
         // .attr("class", "line")
-            .attr("transform", "translate(50)")
+            .attr("transform", "translate(50,10)")
             .attr("d", function(d) { 
                 if ( (d.id).substring((d.id).length - 4)!='rank'){
                     return line(d.values); 
@@ -213,9 +214,9 @@ function draw(area) {
                     value: d.values[d.values.length - 1]}; })
             .attr("transform", function(d) {
                     return "translate(" + (x(d.value.date) - 1)  
-                    + "," + (y(d.value.measurement)  )+ ")"; 
+                    + "," + (y(d.value.measurement)+10  )+ ")"; 
                 })
-            .attr("x", 3)
+            .attr("x", 52)
             .attr("dy", ".35em")
             .text(function(d) {   if ( (d.id).substring((d.id).length - 4)!='rank'){return(d.id).substring(0, (d.id).length - 6)} })
             .style("font-size", "6px")
@@ -247,7 +248,7 @@ function draw(area) {
 
             g.enter()
             .append("circle")
-            .attr("transform", "translate(50)")
+            .attr("transform", "translate(50,10)")
             .filter((d,i) => {
                 return filter_func(d,i,"count")
             })
@@ -270,7 +271,7 @@ function draw(area) {
             .style("text-align", "center")
             .style("width", "20px")
             .style("text-anchor", "middle")
-            .attr("transform", function(d) { return "translate( " + (x(d.date)+50) + "," + (y(d.measurement)+3) + ")"; })
+            .attr("transform", function(d) { return "translate( " + (x(d.date)+50) + "," + (y(d.measurement)+10) + ")"; })
             .text( (d,i)=> {
                 game = d.id.split("=")[0]
                 rank_slice = slices.filter((slice) => slice.id == game + "=rank")[0]
