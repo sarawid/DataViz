@@ -1,0 +1,243 @@
+<meta charset="utf-8">
+
+<style>
+/* 13. Basic Styling with CSS */
+
+/* Style the lines by removing the fill and applying a stroke */
+/* .line {
+    fill: none;
+    stroke: #ffab00;
+    stroke-width: 3;
+}
+  
+.overlay {
+  fill: none;
+  pointer-events: all;
+}
+
+/* Style the dots by assigning a fill and stroke */
+/* .dot {
+    fill: #ffab00;
+    stroke: #fff;
+}
+  
+  .focus circle {
+  fill: none;
+  stroke: steelblue;
+} */ */
+
+path { 
+    stroke-width: 1;
+    fill: none;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+circle { 
+  stroke-width: 1;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: grey;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+/* .legend, .label, .hover-text{
+    font-size: x-small;
+    background-color: white;
+} */
+
+</style>
+<!-- <svg width="960" height="500"></svg> -->
+<!-- Body tag is where we will append our SVG and SVG objects-->
+<body>
+
+
+<!-- Load in the d3 library -->
+<script type="text/javascript" src="../lib/d3.v5.min.js"></script>
+<script type="text/javascript" src="../lib/d3-dsv.min.js"></script>
+
+
+<script>
+// some of figure a  code script from: https://bl.ocks.org/d3noob/ecf9e1ddeb48d0c4fbb29d03c08660bb
+timeConv = d3.timeParse("%Y-%m-%d")
+
+var	margin = {top: 30, right: 20, bottom: 30, left: 30},
+	width = 500 - margin.left - margin.right,
+    height = 220 - margin.top - margin.bottom;
+    
+var	x  = d3.scaleTime().range([0, width],0.5);
+var	y  = d3.scaleLinear().range([height, 0]);
+color= d3.scaleOrdinal(d3.schemeCategory10)
+
+// Define the axes
+// var	xAxis = d3.svg.axis().scale(x)
+// 	.orient("bottom").ticks(5);
+
+// var	yAxis = d3.svg.axis().scale(y)
+// 	.orient("left").ticks(5);
+ yaxis = d3.axisLeft()
+    // .ticks((slices[0].values).length)
+    .scale(y);
+
+ xaxis = d3.axisBottom()
+    .scale(x).ticks(15)
+
+
+line = d3.line()
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.measurement); });
+
+// Adds the svg canvas
+
+    
+    
+    var	chart = d3.select("body")
+	.append("svg")
+		.attr("width", width + margin.left + margin.right+40)
+		.attr("height", height + margin.top + margin.bottom)
+	.append("g")
+		.attr("transform", "translate(" + 30 + "," + margin.top + ")");
+    // dataset=[]
+
+        d3.csv("boardgame_ratings.csv", function( data)
+       { color.domain(d3.keys(data).filter(function(key) {
+      return key !== "date" ;
+            }));
+        return data
+       }).then(function(data) {
+
+        
+        // data.columns.slice(1)
+        var slices=color.domain().map(function (id){
+
+            // console.log(id)
+
+            return{
+
+                id: id,
+                values: data.map(function(d)
+                {
+                    // console.log((d.date))
+                    return {
+                        date: timeConv(d.date),
+                        measurement: +d[id],
+                        
+                    }
+                })
+            }
+        });
+          console.log(slices);  //Log the error.
+ 
+     
+
+	// data.forEach(function(d) {
+
+	// 	d.close = +d.close;
+    // });
+        x.domain(d3.extent(data, function(d) { return timeConv(d.date); }));
+        
+        y.domain([0,  d3.max(slices, function(c) {
+
+                    return d3.max(c.values, function(d) {
+
+                        return d.measurement });
+                        })
+                    ]);;
+
+
+
+//----------------------------LINES-----------------------------//
+
+
+//  let id = 0;
+// const ids = function () {
+//     return "line-"+id++;
+// }  
+
+//-------------------------2. DRAWING---------------------------//
+//-----------------------------AXES-----------------------------//
+chart.append("g")
+    .attr("class", "axis")
+    .attr("transform", "translate(0," + height + ")")
+    .call(xaxis.tickFormat(d3.timeFormat("%b %y"))).style("font-size", "6px");
+
+    chart.append("g")
+    .attr("class", "axis")
+    .call(yaxis).style("font-size", "6px")
+    .append("text")
+    .attr("transform", "rotate(-90)")
+    .attr("dy", ".75em")
+    .attr("y", 6)
+    .style("text-anchor", "end")
+    .text("Frequency");
+
+//----------------------------LINES-----------------------------//
+const lines = chart.selectAll(".lines")
+    .data(slices)
+    .enter()
+    .append("g");
+
+    lines.append("path")
+    // .attr("class", "line")
+    .attr("d", function(d) { 
+        if ( (d.id).substring((d.id).length - 4)!='rank'){
+         return line(d.values); }
+        })
+         .style("stroke", function(d) {
+      return color(d.id);
+    })
+    .style("fill", "none");
+
+    lines.append("text")
+    // .attr("class","label")
+    .datum(function(d) {
+        return {
+            id: d.id,
+            value: d.values[d.values.length - 1]}; })
+    .attr("transform", function(d) {
+            return "translate(" + (x(d.value.date) - 1)  
+            + "," + (y(d.value.measurement)  )+ ")"; })
+    .attr("x", 3)
+    .attr("dy", ".35em")
+    .text(function(d) {   if ( (d.id).substring((d.id).length - 4)!='rank'){return(d.id).substring(0, (d.id).length - 6)} })
+    .style("font-size", "6px")
+    .style("fill", function(d) {
+      return color(d.id);
+    })
+
+// const ghost_lines = lines.append("path")
+//     .attr("class", "ghost-line")
+//     .attr("d", function(d) { return line(d.values); });    
+
+
+
+    
+    
+
+       })
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>

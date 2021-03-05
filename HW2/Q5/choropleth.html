@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+	<!-- add title -->
+	<h1> Average Rating of Board Games Across the World  </h1>
+    <!-- import required libraries here -->
+    <script type="text/javascript" src="../lib/d3.v5.min.js"></script>
+    <script type="text/javascript" src="../lib/d3-dsv.min.js"></script>
+    <script type="text/javascript" src="../lib/d3-tip.min.js"></script>
+    <script type="text/javascript" src="../lib/d3-legend.min.js"></script>
+
+    
+	<style>
+          .countries {
+    fill: none;
+    stroke: rgb(255, 255, 255);
+    stroke-linejoin: round;
+  }
+  .d3-tip {
+  /* line-height: 1; */
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+  .selected_country {
+      fill: #000;
+  }
+  #dropdown{
+    position: relative;
+      left: 10px;
+      top: 10px;
+  }
+  .text_drop{
+    position: relative;
+      left: 10px;
+      top: 10px;
+  }
+  .name{
+    position: relative;
+      left: 10px;
+      top: 600px;
+  }
+		/* define CSS rules here */
+	
+	</style>
+</head>
+
+
+<body>
+    <!-- Add heading for the visualization -->
+	
+    <!-- Create dropdown element here. Options should be added after reading in game file, they should not be created here.-->
+    <label class="text_drop">Select A Game</label>
+    <select id="dropdown"></select>
+	<!-- append visualization svg to this div-->
+    <div id="choropleth"></div>
+    <label class="name">sawid3</label>
+    <script>
+	
+		// enter code to define margin and dimensions for svg
+		
+    var w = 960;
+    var h = 600;
+    var svg = d3.select("body")
+            .append("svg")
+            .attr("width", w)
+            .attr("height",h);
+    var projection = d3.geoMercator().translate([w/2, h/2]).scale(100).center([0,40]);
+    var path = d3.geoPath().projection(projection);
+    var scale = d3.scaleQuantile().domain([0,99]).range(["steelblue","#aaa","lightgreen"]);
+
+
+        Promise.all([
+            // enter code to read files
+            d3.json(" world_countries.json"),
+			d3.csv("ratings-by-country.csv"),
+            
+        ]).then(
+            (data) => {
+                ready(null, data[0], data[1])
+            }
+        );
+		
+		// this function should be called once the data from files have been read
+		// world: topojson from world_countries.json
+		// gameData: data from ratings-by-country.csv
+		
+        function ready(error, world, gameData) {
+            unique = new Set()
+            for(x = 0; x < gameData.length; x++) {
+                unique.add(gameData[x].Game)
+            }
+
+            unique = Array.from(unique).sort()
+            var select  = d3.select("#dropdown").on("change", () => {
+                createMapAndLegend(world, gameData, document.getElementById('dropdown').value)
+            }),
+            options = select.selectAll('option').data(unique);
+            options.enter().append("option").text(function(d) { return d })
+            // .attr("Class", "legendCells")
+
+            selectedGame = unique[0]
+            createMapAndLegend(world, gameData, selectedGame)
+			
+            // event listener for the dropdown. Update choropleth and legend when selection changes. Call createMapAndLegend() with required arguments.
+			
+            // create Choropleth with default option. Call createMapAndLegend() with required arguments. 
+        }
+		// this function should create a Choropleth and legend using the world and gameData arguments for a selectedGame
+		// also use this function to update Choropleth and legend when a different game is selected from the dropdown
+        function createMapAndLegend(world, gameData, selectedGame){ 
+            svg.selectAll("*").remove();
+            console.log(selectedGame)
+            data = world.features
+
+            tip = d3.tip().attr('class', 'd3-tip').offset([-3, 0]).html(function(d) {
+
+    // return "<strong>Frequency:</strong> <span style='color:red'>" + d.frequency + "</span>";
+ 
+                current_country = d.properties.name
+                        gd = gameData.filter((game) => game.Game == selectedGame && game.Country == current_country)
+                        if(gd.length)
+                           {
+                return "<p><strong> Country: </strong>" +d.properties.name+ "<br>"+
+                     "<strong> Game: </strong>"+ selectedGame +"<br>"+
+                     "<strong> Average Rating: </strong>"+ gd[0]['Average Rating']+"<br>"+
+                     "<strong> Number of Users: </strong>"+ gd[0]['Number of Users']
+                    +"</p>"
+            }
+                else 
+                return     "<p><strong> Country: </strong>" +d.properties.name+ "<br>"+
+                     "<strong> Game: </strong>"+ selectedGame +"<br>"+
+                     "<strong> Average Rating: </strong>"+ "N/A"+"<br>"+
+                     "<strong> Number of Users: </strong>"+ "N/A"
+                    +"</p>"
+                        });
+
+            var current_range=  []
+            var countries=[]
+            average_rate=gameData.filter(function(d){                
+                if( d['Game']==selectedGame)
+                { 
+                    current_range.push(parseFloat(d['Average Rating']))
+                }
+            })
+            // current_range=current_range.sorty
+            quantile=d3.scaleQuantile()
+                .domain(current_range.sort()) // pass the average dataset to a scaleQuantile’s domain
+                .range(["#feebe2", "#fbb4b9", "#f768a1", "#ae017e"])
+
+
+                var colorLegend = d3.legendColor()
+                .labelFormat(d3.format(",.2f"))
+                .scale(quantile)
+                .shapePadding(3)
+                .shapeWidth(20)
+                .shapeHeight(20)
+                .labelOffset(12)
+                // .attr("transform","translate(900,30)");
+                legend = svg.append("g")
+                    .attr("transform","translate(700,30)") //change to width -margin -distance
+                    .call(colorLegend)
+                svg.call(tip);
+                // svg.call(colorLegend)
+
+            svg.append("g")
+                .attr("class", "countries")
+                .selectAll("path")
+                .data(data)
+                .enter().append("path")
+                
+                .on('mouseover', tip.show)
+                    .on('mouseout', tip.hide)
+                    .attr("fill",
+                     function (d){
+                        current_country = d.properties.name
+                        gd = gameData.filter((game) => game.Game == selectedGame && game.Country == current_country)
+                        if(gd.length)
+                           { 
+                            console.log(quantile(gd[0]['Average Rating']) + " " + gd[0]['Average Rating'])
+                            return quantile(parseFloat(gd[0]['Average Rating']))}
+                        else
+                            return "grey"
+                        
+                    }
+                    )
+
+                    .attr("d", path)
+                   
+			
+        }
+    </script>
+
+</body>
+
+</html>

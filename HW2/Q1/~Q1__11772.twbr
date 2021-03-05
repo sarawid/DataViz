@@ -1,0 +1,792 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20204.21.0114.0916                               -->
+<workbook source-build='2020.4.1 (20204.21.0114.0916)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <AutoCreateAndUpdateDSDPhoneLayouts />
+    <_.fcp.MarkAnimation.true...MarkAnimation />
+    <_.fcp.ObjectModelEncapsulateLegacy.true...ObjectModelEncapsulateLegacy />
+    <_.fcp.ObjectModelTableType.true...ObjectModelTableType />
+    <_.fcp.SchemaViewerObjectModel.true...SchemaViewerObjectModel />
+    <_.fcp.SetMembershipControl.true...SetMembershipControl />
+    <SheetIdentifierTracking />
+    <SortTagCleanup />
+    <WindowsPersistSimpleIdentifiers />
+    <WorksheetBackgroundTransparency />
+    <ZoneBackgroundTransparency />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='popular_board_game' inline='true' name='federated.18i8fn507i3iex16hku4e06hsjgj' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='popular_board_game' name='textscan.1l2tjv904olyvz1933tlp0ch12sl'>
+            <connection class='textscan' directory='C:/Users/salra/Projects/DVA/HW2/Q1' filename='popular_board_game.csv' password='' port='0' server='' />
+          </named-connection>
+          <named-connection caption='games_detailed_info_filtered' name='textscan.08zmqyt19kgps11b4n4ig0r0ikb0'>
+            <connection class='textscan' directory='C:/Users/salra/Projects/DVA/HW2/Q1' filename='games_detailed_info_filtered.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <_.fcp.ObjectModelEncapsulateLegacy.false...relation connection='textscan.08zmqyt19kgps11b4n4ig0r0ikb0' name='games_detailed_info_filtered.csv' table='[games_detailed_info_filtered#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+            <column datatype='string' name='Category' ordinal='0' />
+            <column datatype='string' name='Mechanics' ordinal='1' />
+            <column datatype='string' name='Max.Players' ordinal='2' />
+          </columns>
+        </_.fcp.ObjectModelEncapsulateLegacy.false...relation>
+        <_.fcp.ObjectModelEncapsulateLegacy.true...relation type='collection'>
+          <relation connection='textscan.1l2tjv904olyvz1933tlp0ch12sl' name='popular_board_game.csv' table='[popular_board_game#csv]' type='table'>
+            <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+              <column datatype='string' name='name' ordinal='0' />
+              <column datatype='string' name='category' ordinal='1' />
+              <column datatype='string' name='playtime' ordinal='2' />
+              <column datatype='integer' name='playtime_num' ordinal='3' />
+              <column datatype='real' name='avg_rating' ordinal='4' />
+              <column datatype='integer' name='num_ratings' ordinal='5' />
+              <column datatype='integer' name='min_players' ordinal='6' />
+            </columns>
+          </relation>
+          <relation connection='textscan.08zmqyt19kgps11b4n4ig0r0ikb0' name='games_detailed_info_filtered.csv' table='[games_detailed_info_filtered#csv]' type='table'>
+            <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+              <column datatype='string' name='Category' ordinal='0' />
+              <column datatype='string' name='Mechanics' ordinal='1' />
+              <column datatype='string' name='Max.Players' ordinal='2' />
+            </columns>
+          </relation>
+        </_.fcp.ObjectModelEncapsulateLegacy.true...relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[popular_board_game.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[games_detailed_info_filtered.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>name</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[name]</local-name>
+            <parent-name>[popular_board_game.csv]</parent-name>
+            <remote-alias>name</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>category</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[category]</local-name>
+            <parent-name>[popular_board_game.csv]</parent-name>
+            <remote-alias>category</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>playtime</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[playtime]</local-name>
+            <parent-name>[popular_board_game.csv]</parent-name>
+            <remote-alias>playtime</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>playtime_num</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[playtime_num]</local-name>
+            <parent-name>[popular_board_game.csv]</parent-name>
+            <remote-alias>playtime_num</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>avg_rating</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[avg_rating]</local-name>
+            <parent-name>[popular_board_game.csv]</parent-name>
+            <remote-alias>avg_rating</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>num_ratings</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[num_ratings]</local-name>
+            <parent-name>[popular_board_game.csv]</parent-name>
+            <remote-alias>num_ratings</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>min_players</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[min_players]</local-name>
+            <parent-name>[popular_board_game.csv]</parent-name>
+            <remote-alias>min_players</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Category</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Category]</local-name>
+            <parent-name>[games_detailed_info_filtered.csv]</parent-name>
+            <remote-alias>Category</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[games_detailed_info_filtered.csv_4D66422D2A3D4106AAABCA9C993230B4]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Mechanics</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Mechanics]</local-name>
+            <parent-name>[games_detailed_info_filtered.csv]</parent-name>
+            <remote-alias>Mechanics</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[games_detailed_info_filtered.csv_4D66422D2A3D4106AAABCA9C993230B4]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Max.Players</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Max.Players]</local-name>
+            <parent-name>[games_detailed_info_filtered.csv]</parent-name>
+            <remote-alias>Max.Players</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <_.fcp.ObjectModelEncapsulateLegacy.true...object-id>[games_detailed_info_filtered.csv_4D66422D2A3D4106AAABCA9C993230B4]</_.fcp.ObjectModelEncapsulateLegacy.true...object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column datatype='string' name='[:Measure Names]' role='dimension' type='nominal'>
+        <aliases>
+          <alias key='&quot;[federated.18i8fn507i3iex16hku4e06hsjgj].[__tableau_internal_object_id__].[cnt:popular_board_game.csv_7A231CFF4A36475693F33193B812CC99:qk]&quot;' value='Number of Games' />
+          <alias key='&quot;[federated.18i8fn507i3iex16hku4e06hsjgj].[avg:avg_rating:qk]&quot;' value='Average Rating' />
+          <alias key='&quot;[federated.18i8fn507i3iex16hku4e06hsjgj].[avg:playtime_num:qk]&quot;' value='Average Playtime ' />
+        </aliases>
+      </column>
+      <column caption='Support_Solo' datatype='string' name='[Calculation_828380868394749952]' role='dimension' type='nominal'>
+        <calculation class='tableau' formula='IF [min_players]==1 Then &apos;SUPPORT SOLO&apos; END' />
+      </column>
+      <column caption='GROUPS' datatype='string' name='[Calculation_828380868395958274]' role='dimension' type='nominal'>
+        <calculation class='tableau' formula='IF [min_players]==1 THEN &apos;SUPPORT SOLO&apos; ELSE &apos;NOT SUPPORT SOLO&apos;&#13;&#10;END' />
+      </column>
+      <column caption='Max_Average' datatype='string' name='[Calculation_828380868400824326]' role='dimension' type='nominal'>
+        <calculation class='tableau' formula='if [avg_rating]==([avg_rating]) then [name] end' />
+      </column>
+      <column caption='Top Game' datatype='string' name='[Calculation_828380868401799175]' role='dimension' type='nominal'>
+        <calculation class='tableau' formula='IF ([avg_rating])== ({FIXED [Calculation_828380868395958274], [category]:MAX([avg_rating])}) THEN [name] ELSE NULL END' />
+      </column>
+      <column caption='Category1' datatype='string' name='[Category]' role='dimension' type='nominal' />
+      <column datatype='string' name='[Mechanics]' role='dimension' type='nominal' />
+      <column caption='not support solo' datatype='string' name='[Support_Solo (copy)_828380868395417601]' role='dimension' type='nominal'>
+        <calculation class='tableau' formula='IF [min_players]!=1 Then &apos;not support solo&apos; END' />
+      </column>
+      <_.fcp.ObjectModelTableType.true...column caption='games_detailed_info_filtered.csv' datatype='table' name='[__tableau_internal_object_id__].[games_detailed_info_filtered.csv_4D66422D2A3D4106AAABCA9C993230B4]' role='measure' type='quantitative' />
+      <_.fcp.ObjectModelTableType.true...column caption='popular_board_game.csv' datatype='table' name='[__tableau_internal_object_id__].[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]' role='measure' type='quantitative' />
+      <column caption='Avg Rating' datatype='real' name='[avg_rating]' role='measure' type='quantitative' />
+      <column caption='Category' datatype='string' name='[category]' role='dimension' type='nominal' />
+      <column caption='Min Players' datatype='integer' name='[min_players]' role='measure' type='quantitative' />
+      <column caption='Name' datatype='string' name='[name]' role='dimension' type='nominal' />
+      <column caption='Num Ratings' datatype='integer' name='[num_ratings]' role='measure' type='quantitative' />
+      <column caption='Playtime' datatype='string' name='[playtime]' role='dimension' type='nominal' />
+      <column caption='Playtime Num' datatype='integer' name='[playtime_num]' role='dimension' type='ordinal' />
+      <column-instance column='[__tableau_internal_object_id__].[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]' derivation='Count' name='[__tableau_internal_object_id__].[cnt:popular_board_game.csv_7A231CFF4A36475693F33193B812CC99:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[avg_rating]' derivation='Avg' name='[avg:avg_rating:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[playtime_num]' derivation='Avg' name='[avg:playtime_num:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Mechanics]' derivation='None' name='[none:Mechanics:nk]' pivot='key' type='nominal' />
+      <column-instance column='[playtime]' derivation='None' name='[none:playtime:nk]' pivot='key' type='nominal' />
+      <layout _.fcp.SchemaViewerObjectModel.false...dim-percentage='0.5' _.fcp.SchemaViewerObjectModel.false...measure-percentage='0.4' dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[none:playtime:nk]' type='palette'>
+            <map to='#4e79a7'>
+              <bucket>&quot;(30, 60]&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;&gt;90&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;&lt;=30&quot;</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>&quot;(60, 90]&quot;</bucket>
+            </map>
+          </encoding>
+          <encoding attr='color' field='[none:Mechanics:nk]' type='palette'>
+            <map to='#4e79a7'>
+              <bucket>&quot;Card Drafting&quot;</bucket>
+            </map>
+            <map to='#59a14f'>
+              <bucket>&quot;Modular Board&quot;</bucket>
+            </map>
+            <map to='#76b7b2'>
+              <bucket>&quot;Memory&quot;</bucket>
+            </map>
+            <map to='#e15759'>
+              <bucket>&quot;Hand Management&quot;</bucket>
+            </map>
+            <map to='#f28e2b'>
+              <bucket>&quot;Dice Rolling&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;Canada&quot;' />
+      </semantic-values>
+      <_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+        <objects>
+          <object caption='games_detailed_info_filtered.csv' id='games_detailed_info_filtered.csv_4D66422D2A3D4106AAABCA9C993230B4'>
+            <properties context=''>
+              <relation connection='textscan.08zmqyt19kgps11b4n4ig0r0ikb0' name='games_detailed_info_filtered.csv' table='[games_detailed_info_filtered#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+                  <column datatype='string' name='Category' ordinal='0' />
+                  <column datatype='string' name='Mechanics' ordinal='1' />
+                  <column datatype='string' name='Max.Players' ordinal='2' />
+                </columns>
+              </relation>
+            </properties>
+          </object>
+          <object caption='popular_board_game.csv' id='popular_board_game.csv_7A231CFF4A36475693F33193B812CC99'>
+            <properties context=''>
+              <relation connection='textscan.1l2tjv904olyvz1933tlp0ch12sl' name='popular_board_game.csv' table='[popular_board_game#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+                  <column datatype='string' name='name' ordinal='0' />
+                  <column datatype='string' name='category' ordinal='1' />
+                  <column datatype='string' name='playtime' ordinal='2' />
+                  <column datatype='integer' name='playtime_num' ordinal='3' />
+                  <column datatype='real' name='avg_rating' ordinal='4' />
+                  <column datatype='integer' name='num_ratings' ordinal='5' />
+                  <column datatype='integer' name='min_players' ordinal='6' />
+                </columns>
+              </relation>
+            </properties>
+          </object>
+        </objects>
+        <relationships>
+          <relationship>
+            <expression op='='>
+              <expression op='[category]' />
+              <expression op='[Category]' />
+            </expression>
+            <first-end-point object-id='popular_board_game.csv_7A231CFF4A36475693F33193B812CC99' />
+            <second-end-point object-id='games_detailed_info_filtered.csv_4D66422D2A3D4106AAABCA9C993230B4' />
+          </relationship>
+        </relationships>
+      </_.fcp.ObjectModelEncapsulateLegacy.true...object-graph>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='BarChart'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run fontalignment='1'>Popular Board Games</run>
+            <run>Æ&#10;</run>
+          </formatted-text>
+        </title>
+        <caption>
+          <formatted-text>
+            <run>Count of Board Games for each Playtime broken down by Category.  Color shows details about Playtime.</run>
+          </formatted-text>
+        </caption>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='popular_board_game' name='federated.18i8fn507i3iex16hku4e06hsjgj' />
+          </datasources>
+          <datasource-dependencies datasource='federated.18i8fn507i3iex16hku4e06hsjgj'>
+            <_.fcp.ObjectModelTableType.false...column caption='popular_board_game.csv' datatype='integer' name='[__tableau_internal_object_id__].[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]' role='measure' type='quantitative' />
+            <column-instance column='[__tableau_internal_object_id__].[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]' derivation='Count' name='[__tableau_internal_object_id__].[cnt:popular_board_game.csv_7A231CFF4A36475693F33193B812CC99:qk]' pivot='key' type='quantitative' />
+            <_.fcp.ObjectModelTableType.true...column caption='popular_board_game.csv' datatype='table' name='[__tableau_internal_object_id__].[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]' role='measure' type='quantitative' />
+            <column caption='Category' datatype='string' name='[category]' role='dimension' type='nominal' />
+            <column-instance column='[category]' derivation='None' name='[none:category:nk]' pivot='key' type='nominal' />
+            <column-instance column='[playtime]' derivation='None' name='[none:playtime:nk]' pivot='key' type='nominal' />
+            <column caption='Playtime' datatype='string' name='[playtime]' role='dimension' type='nominal' />
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <format attr='title' class='0' field='[federated.18i8fn507i3iex16hku4e06hsjgj].[__tableau_internal_object_id__].[cnt:popular_board_game.csv_7A231CFF4A36475693F33193B812CC99:qk]' scope='rows' value='Count of Games' />
+          </style-rule>
+          <style-rule element='cell'>
+            <format attr='width' field='[federated.18i8fn507i3iex16hku4e06hsjgj].[none:playtime:nk]' value='52' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.18i8fn507i3iex16hku4e06hsjgj].[none:playtime:nk]' />
+            </encodings>
+            <style>
+              <style-rule element='pane'>
+                <format attr='minwidth' value='-1' />
+                <format attr='maxwidth' value='-1' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.18i8fn507i3iex16hku4e06hsjgj].[__tableau_internal_object_id__].[cnt:popular_board_game.csv_7A231CFF4A36475693F33193B812CC99:qk]</rows>
+        <cols>([federated.18i8fn507i3iex16hku4e06hsjgj].[none:category:nk] / [federated.18i8fn507i3iex16hku4e06hsjgj].[none:playtime:nk])</cols>
+      </table>
+      <simple-id uuid='{5DE25A54-493A-457C-A13D-13B3A3B44789}' />
+    </worksheet>
+    <worksheet name='StackedChart'>
+      <layout-options>
+        <title>
+          <formatted-text>
+            <run>Popular BoardGames&#10;</run>
+          </formatted-text>
+        </title>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='popular_board_game' name='federated.18i8fn507i3iex16hku4e06hsjgj' />
+          </datasources>
+          <datasource-dependencies datasource='federated.18i8fn507i3iex16hku4e06hsjgj'>
+            <column datatype='string' name='[Max.Players]' role='dimension' type='nominal' />
+            <column datatype='string' name='[Mechanics]' role='dimension' type='nominal' />
+            <column caption='Category' datatype='string' name='[category]' role='dimension' type='nominal' />
+            <column-instance column='[name]' derivation='Count' name='[cnt:name:qk]' pivot='key' type='quantitative' />
+            <column caption='Name' datatype='string' name='[name]' role='dimension' type='nominal' />
+            <column-instance column='[Max.Players]' derivation='None' name='[none:Max.Players:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Mechanics]' derivation='None' name='[none:Mechanics:nk]' pivot='key' type='nominal' />
+            <column-instance column='[category]' derivation='None' name='[none:category:nk]' pivot='key' type='nominal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.18i8fn507i3iex16hku4e06hsjgj].[none:Max.Players:nk]'>
+            <groupfilter function='member' level='[none:Max.Players:nk]' member='&quot;4 Players&quot;' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
+          </filter>
+          <slices>
+            <column>[federated.18i8fn507i3iex16hku4e06hsjgj].[none:Max.Players:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <format attr='title' class='0' field='[federated.18i8fn507i3iex16hku4e06hsjgj].[cnt:name:qk]' scope='rows' value='Game Count' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.18i8fn507i3iex16hku4e06hsjgj].[none:Mechanics:nk]' />
+            </encodings>
+          </pane>
+        </panes>
+        <rows>[federated.18i8fn507i3iex16hku4e06hsjgj].[cnt:name:qk]</rows>
+        <cols>[federated.18i8fn507i3iex16hku4e06hsjgj].[none:category:nk]</cols>
+      </table>
+      <simple-id uuid='{BB72E0DB-83EE-4F04-8C70-823E01FE151D}' />
+    </worksheet>
+    <worksheet name='Table'>
+      <layout-options>
+        <caption>
+          <formatted-text>
+            <run>Sawid3</run>
+          </formatted-text>
+        </caption>
+      </layout-options>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='popular_board_game' name='federated.18i8fn507i3iex16hku4e06hsjgj' />
+          </datasources>
+          <datasource-dependencies datasource='federated.18i8fn507i3iex16hku4e06hsjgj'>
+            <column caption='GROUPS' datatype='string' name='[Calculation_828380868395958274]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [min_players]==1 THEN &apos;SUPPORT SOLO&apos; ELSE &apos;NOT SUPPORT SOLO&apos;&#13;&#10;END' />
+            </column>
+            <column caption='Top Game' datatype='string' name='[Calculation_828380868401799175]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF ([avg_rating])== ({FIXED [Calculation_828380868395958274], [category]:MAX([avg_rating])}) THEN [name] ELSE NULL END' />
+            </column>
+            <_.fcp.ObjectModelTableType.false...column caption='popular_board_game.csv' datatype='integer' name='[__tableau_internal_object_id__].[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]' role='measure' type='quantitative' />
+            <column-instance column='[__tableau_internal_object_id__].[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]' derivation='Count' name='[__tableau_internal_object_id__].[cnt:popular_board_game.csv_7A231CFF4A36475693F33193B812CC99:qk]' pivot='key' type='quantitative' />
+            <_.fcp.ObjectModelTableType.true...column caption='popular_board_game.csv' datatype='table' name='[__tableau_internal_object_id__].[popular_board_game.csv_7A231CFF4A36475693F33193B812CC99]' role='measure' type='quantitative' />
+            <column-instance column='[Calculation_828380868401799175]' derivation='Attribute' name='[attr:Calculation_828380868401799175:nk]' pivot='key' type='nominal' />
+            <column-instance column='[avg_rating]' derivation='Avg' name='[avg:avg_rating:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[playtime_num]' derivation='Avg' name='[avg:playtime_num:qk]' pivot='key' type='quantitative' />
+            <column caption='Avg Rating' datatype='real' name='[avg_rating]' role='measure' type='quantitative' />
+            <column caption='Category' datatype='string' name='[category]' role='dimension' type='nominal' />
+            <column caption='Min Players' datatype='integer' name='[min_players]' role='measure' type='quantitative' />
+            <column caption='Name' datatype='string' name='[name]' role='dimension' type='nominal' />
+            <column-instance column='[Calculation_828380868395958274]' derivation='None' name='[none:Calculation_828380868395958274:nk]' pivot='key' type='nominal' />
+            <column-instance column='[category]' derivation='None' name='[none:category:nk]' pivot='key' type='nominal' />
+            <column caption='Playtime Num' datatype='integer' name='[playtime_num]' role='dimension' type='ordinal' />
+          </datasource-dependencies>
+          <filter class='categorical' column='[federated.18i8fn507i3iex16hku4e06hsjgj].[:Measure Names]'>
+            <groupfilter function='union' user:op='manual'>
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.18i8fn507i3iex16hku4e06hsjgj].[__tableau_internal_object_id__].[cnt:popular_board_game.csv_7A231CFF4A36475693F33193B812CC99:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.18i8fn507i3iex16hku4e06hsjgj].[avg:avg_rating:qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[federated.18i8fn507i3iex16hku4e06hsjgj].[avg:playtime_num:qk]&quot;' />
+            </groupfilter>
+          </filter>
+          <manual-sort column='[federated.18i8fn507i3iex16hku4e06hsjgj].[:Measure Names]' direction='ASC'>
+            <dictionary>
+              <bucket>&quot;[federated.18i8fn507i3iex16hku4e06hsjgj].[__tableau_internal_object_id__].[cnt:popular_board_game.csv_7A231CFF4A36475693F33193B812CC99:qk]&quot;</bucket>
+              <bucket>&quot;[federated.18i8fn507i3iex16hku4e06hsjgj].[avg:avg_rating:qk]&quot;</bucket>
+              <bucket>&quot;[federated.18i8fn507i3iex16hku4e06hsjgj].[avg:playtime_num:qk]&quot;</bucket>
+            </dictionary>
+          </manual-sort>
+          <slices>
+            <column>[federated.18i8fn507i3iex16hku4e06hsjgj].[:Measure Names]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='cell'>
+            <format attr='width' field='[federated.18i8fn507i3iex16hku4e06hsjgj].[:Measure Names]' value='177' />
+            <format attr='text-format' field='[federated.18i8fn507i3iex16hku4e06hsjgj].[Multiple Values]' value='n#,##0.00;-#,##0.00' />
+          </style-rule>
+          <style-rule element='header'>
+            <format attr='width' field='[federated.18i8fn507i3iex16hku4e06hsjgj].[attr:Calculation_828380868401799175:nk]' value='204' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <text column='[federated.18i8fn507i3iex16hku4e06hsjgj].[Multiple Values]' />
+            </encodings>
+            <style>
+              <style-rule element='mark'>
+                <format attr='mark-labels-show' value='true' />
+              </style-rule>
+              <style-rule element='pane'>
+                <format attr='minwidth' value='-1' />
+                <format attr='maxwidth' value='-1' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>([federated.18i8fn507i3iex16hku4e06hsjgj].[none:Calculation_828380868395958274:nk] / ([federated.18i8fn507i3iex16hku4e06hsjgj].[none:category:nk] / [federated.18i8fn507i3iex16hku4e06hsjgj].[attr:Calculation_828380868401799175:nk]))</rows>
+        <cols>[federated.18i8fn507i3iex16hku4e06hsjgj].[:Measure Names]</cols>
+      </table>
+      <simple-id uuid='{FDB70917-F6A2-4F9E-A3D1-177BD790C617}' />
+    </worksheet>
+  </worksheets>
+  <dashboards>
+    <dashboard name='Dashboard 1'>
+      <style />
+      <size maxheight='800' maxwidth='1000' minheight='800' minwidth='1000' />
+      <zones>
+        <zone _.fcp.SetMembershipControl.false...type='layout-basic' _.fcp.SetMembershipControl.true...type-v2='layout-basic' h='100000' id='2' w='100000' x='0' y='0'>
+          <zone _.fcp.SetMembershipControl.false...type='layout-flow' _.fcp.SetMembershipControl.true...type-v2='layout-flow' h='94000' id='5' param='horz' w='98400' x='800' y='1000'>
+            <zone _.fcp.SetMembershipControl.false...type='layout-basic' _.fcp.SetMembershipControl.true...type-v2='layout-basic' h='94000' id='3' w='98400' x='800' y='1000'>
+              <zone h='94000' id='1' name='BarChart' w='98400' x='800' y='1000'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+            </zone>
+          </zone>
+          <zone _.fcp.SetMembershipControl.false...type='layout-flow' _.fcp.SetMembershipControl.true...type-v2='layout-flow' h='4000' id='7' param='vert' w='98400' x='800' y='95000'>
+            <zone _.fcp.SetMembershipControl.false...type='text' _.fcp.SetMembershipControl.true...type-v2='text' h='3125' id='8' w='98400' x='800' y='95000'>
+              <formatted-text>
+                <run>sawid3</run>
+              </formatted-text>
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='4' />
+              </zone-style>
+            </zone>
+          </zone>
+          <zone-style>
+            <format attr='border-color' value='#000000' />
+            <format attr='border-style' value='none' />
+            <format attr='border-width' value='0' />
+            <format attr='margin' value='8' />
+          </zone-style>
+        </zone>
+        <zone _.fcp.SetMembershipControl.false...type='color' _.fcp.SetMembershipControl.true...type-v2='color' h='12250' id='6' name='BarChart' pane-specification-id='0' param='[federated.18i8fn507i3iex16hku4e06hsjgj].[none:playtime:nk]' w='14000' x='84800' y='25250' />
+      </zones>
+      <devicelayouts>
+        <devicelayout auto-generated='true' name='Phone'>
+          <size maxheight='700' minheight='700' sizing-mode='vscroll' />
+          <zones />
+        </devicelayout>
+      </devicelayouts>
+      <simple-id uuid='{D18418FF-C326-47DE-A0CC-DDCA6639FC8B}' />
+    </dashboard>
+    <dashboard name='Dashboard 2'>
+      <style />
+      <size maxheight='800' maxwidth='1000' minheight='800' minwidth='1000' />
+      <datasources>
+        <datasource caption='popular_board_game' name='federated.18i8fn507i3iex16hku4e06hsjgj' />
+      </datasources>
+      <datasource-dependencies datasource='federated.18i8fn507i3iex16hku4e06hsjgj'>
+        <column datatype='string' name='[Max.Players]' role='dimension' type='nominal' />
+        <column-instance column='[Max.Players]' derivation='None' name='[none:Max.Players:nk]' pivot='key' type='nominal' />
+      </datasource-dependencies>
+      <zones>
+        <zone _.fcp.SetMembershipControl.false...type='layout-basic' _.fcp.SetMembershipControl.true...type-v2='layout-basic' h='100000' id='4' w='100000' x='0' y='0'>
+          <zone _.fcp.SetMembershipControl.false...type='layout-flow' _.fcp.SetMembershipControl.true...type-v2='layout-flow' h='80500' id='7' param='horz' w='98400' x='800' y='1000'>
+            <zone _.fcp.SetMembershipControl.false...type='layout-basic' _.fcp.SetMembershipControl.true...type-v2='layout-basic' h='80500' id='5' w='82400' x='800' y='1000'>
+              <zone h='80500' id='3' name='StackedChart' w='82400' x='800' y='1000'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+            </zone>
+            <zone _.fcp.SetMembershipControl.false...type='layout-flow' _.fcp.SetMembershipControl.true...type-v2='layout-flow' fixed-size='160' h='80500' id='6' is-fixed='true' param='vert' w='16000' x='83200' y='1000'>
+              <zone _.fcp.SetMembershipControl.false...type='filter' _.fcp.SetMembershipControl.true...type-v2='filter' h='13500' id='8' name='StackedChart' param='[federated.18i8fn507i3iex16hku4e06hsjgj].[none:Max.Players:nk]' show-all='false' w='16000' x='83200' y='1000'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+              <zone _.fcp.SetMembershipControl.false...type='color' _.fcp.SetMembershipControl.true...type-v2='color' h='15750' id='9' name='StackedChart' pane-specification-id='0' param='[federated.18i8fn507i3iex16hku4e06hsjgj].[none:Mechanics:nk]' w='16000' x='83200' y='14500'>
+                <zone-style>
+                  <format attr='border-color' value='#000000' />
+                  <format attr='border-style' value='none' />
+                  <format attr='border-width' value='0' />
+                  <format attr='margin' value='4' />
+                </zone-style>
+              </zone>
+            </zone>
+          </zone>
+          <zone _.fcp.SetMembershipControl.false...type='layout-flow' _.fcp.SetMembershipControl.true...type-v2='layout-flow' h='17500' id='10' param='vert' w='98400' x='800' y='81500'>
+            <zone _.fcp.SetMembershipControl.false...type='text' _.fcp.SetMembershipControl.true...type-v2='text' h='3125' id='11' w='98400' x='800' y='81500'>
+              <formatted-text>
+                <run>sawid3&#10;</run>
+              </formatted-text>
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='4' />
+              </zone-style>
+            </zone>
+          </zone>
+          <zone-style>
+            <format attr='border-color' value='#000000' />
+            <format attr='border-style' value='none' />
+            <format attr='border-width' value='0' />
+            <format attr='margin' value='8' />
+          </zone-style>
+        </zone>
+      </zones>
+      <devicelayouts>
+        <devicelayout auto-generated='true' name='Phone'>
+          <size maxheight='700' minheight='700' sizing-mode='vscroll' />
+          <zones>
+            <zone _.fcp.SetMembershipControl.false...type='layout-basic' _.fcp.SetMembershipControl.true...type-v2='layout-basic' h='100000' id='2' w='100000' x='0' y='0'>
+              <zone _.fcp.SetMembershipControl.false...type='layout-flow' _.fcp.SetMembershipControl.true...type-v2='layout-flow' h='84000' id='1' param='vert' w='84000' x='8000' y='8000' />
+              <zone-style>
+                <format attr='border-color' value='#000000' />
+                <format attr='border-style' value='none' />
+                <format attr='border-width' value='0' />
+                <format attr='margin' value='8' />
+              </zone-style>
+            </zone>
+          </zones>
+        </devicelayout>
+      </devicelayouts>
+      <simple-id uuid='{B0146539-8076-430E-A46B-D9FCCC70DB83}' />
+    </dashboard>
+  </dashboards>
+  <windows source-height='30'>
+    <window class='worksheet' maximized='true' name='Table'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+            <card type='measures' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+        <edge name='bottom'>
+          <strip size='96'>
+            <card type='caption' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{6151C0C0-24B5-4D8A-8F3C-76EA1E4F826E}' />
+    </window>
+    <window class='dashboard' name='Dashboard 1'>
+      <viewpoints>
+        <viewpoint name='BarChart'>
+          <zoom type='entire-view' />
+        </viewpoint>
+      </viewpoints>
+      <active id='-1' />
+      <simple-id uuid='{9433D9C4-F215-4CDE-9FAC-7D550BD8F7EF}' />
+    </window>
+    <window class='dashboard' name='Dashboard 2'>
+      <viewpoints>
+        <viewpoint name='StackedChart'>
+          <zoom type='entire-view' />
+        </viewpoint>
+      </viewpoints>
+      <active id='3' />
+      <simple-id uuid='{62C50390-DEE4-442C-964F-B48EDFE419FF}' />
+    </window>
+    <window class='worksheet' name='BarChart'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card pane-specification-id='0' param='[federated.18i8fn507i3iex16hku4e06hsjgj].[none:playtime:nk]' type='color' />
+          </strip>
+        </edge>
+        <edge name='bottom'>
+          <strip size='96'>
+            <card type='caption' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{7D48A736-027E-4981-A103-47BEB888340E}' />
+    </window>
+    <window class='worksheet' name='StackedChart'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='160'>
+            <card param='[federated.18i8fn507i3iex16hku4e06hsjgj].[none:Max.Players:nk]' show-all='false' type='filter' />
+            <card pane-specification-id='0' param='[federated.18i8fn507i3iex16hku4e06hsjgj].[none:Mechanics:nk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{EC3D1E33-5A0C-44B4-B5B3-8C90ED678FEF}' />
+    </window>
+  </windows>
+</workbook>

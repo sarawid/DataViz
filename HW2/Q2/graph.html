@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script type="text/javascript" src="../lib/d3.v5.min.js"></script>
+<style>
+
+path.link_0 {
+  fill: none;
+  stroke: #666;
+  stroke-width: 3px;
+}
+
+path.link_1 {
+fill: none;
+stroke: green;
+stroke-width: 1px;
+stroke-dasharray: 5,5;
+}
+
+/* path.link {
+    fill: none;
+  stroke: #666;
+  stroke-width: 1.5px  
+} */
+
+circle {
+  fill: #ccc;
+  stroke:black;
+  stroke-width: 1.5px;
+}
+.circle_1 {
+  fill: #e0ecf4;
+
+  
+}
+
+.circle_2 {
+  fill:#9ebcda;
+
+  
+}
+
+.circle_3 {
+  fill: #8856a7
+
+}
+
+text {
+  fill: #000;
+  font: 10px sans-serif;
+  pointer-events: none;
+}
+
+
+.pin{
+    /* border: 3px solid rgba(0,0,0,0.2);
+    stroke:rgb(238, 74, 24); */
+    fill:#FFFF00
+
+
+}
+
+</style>
+<html xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"><head>
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Editor msdt:dt="string">Hull, Matthew D</mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Editor>
+<mso:xd_Signature msdt:dt="string"></mso:xd_Signature>
+<mso:Order msdt:dt="string">35500.0000000000</mso:Order>
+<mso:ComplianceAssetId msdt:dt="string"></mso:ComplianceAssetId>
+<mso:TemplateUrl msdt:dt="string"></mso:TemplateUrl>
+<mso:xd_ProgID msdt:dt="string"></mso:xd_ProgID>
+<mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Author msdt:dt="string">Hull, Matthew D</mso:display_urn_x003a_schemas-microsoft-com_x003a_office_x003a_office_x0023_Author>
+<mso:ContentTypeId msdt:dt="string">0x010100D48F87729E805A4096AD64C4E51DACBE</mso:ContentTypeId>
+<mso:_SourceUrl msdt:dt="string"></mso:_SourceUrl>
+<mso:_SharedFileIndex msdt:dt="string"></mso:_SharedFileIndex>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+<title></title></head><body>
+<script>
+
+d3.dsv(",", "board_games.csv", function(d) {
+  return {
+    source: d.source,
+    target: d.target,
+    value: +d.value
+  }
+}).then(function(data) {
+
+  var links = data;
+
+  var nodes = {};
+
+  // compute the distinct nodes from the links.
+  links.forEach(function(link) {
+      link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+      link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
+  });
+
+  var width = 1200,
+      height = 700;
+
+  var force = d3.forceSimulation()
+      .nodes(d3.values(nodes))
+      .force("link", d3.forceLink(links).distance(100))
+      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force("x", d3.forceX())
+      .force("y", d3.forceY())
+      .force("charge", d3.forceManyBody().strength(-250))
+      .alphaTarget(1)
+      .on("tick", tick);
+
+  var svg = d3.select("body").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+  // add the links
+  var path = svg.append("g")
+      .selectAll("path")
+      .data(links)
+      .enter()
+      .append("path")
+    .classed("link_1", function(d) {
+           return  d.value==1 })    
+      .classed("link_0", function(d) {
+           return  d.value==0 })
+        
+ 
+
+
+    //   .attr("class", function(d) {
+    //        return "link " + d.type; })
+
+
+
+    //   .attr('stroke-dasharray', function(d) {
+    //     if(d.value === 1) {
+    //         return '5, 5';
+    //     } else {
+    //         // for solid line
+    //         return null;
+    //     }
+    //     })
+    //     .attr('stroke', function(d) {
+    //     if(d.value === 1) {
+    //         return 'green';
+    //     } else {
+    //         // for solid line
+    //         return null;
+    //     }
+    //     })
+    //     .attr('stroke_width',  function(d) {
+    //     if(d.value === 1) {
+    //         return '0.5px';
+    //     } else {
+    //         // for solid line
+    //         return '1.5px';
+    //     }
+    //     })
+   var size_= function(d){        
+            d.weight = links.filter(function(l) {
+            return l.source.index == d.index || l.target.index == d.index
+            }).length
+        return d.weight}
+  // define the nodes
+
+  var node = svg.selectAll(".node")
+      .data(force.nodes())
+      .enter().append("g")
+      .attr("class", "node")
+
+      .call(d3.drag()
+          .on("start", dragstarted)
+          .on("drag", dragged)
+          .on("end", dragended))
+          .on("dblclick", releasenode);
+
+;
+
+        node.append("circle")
+        
+        .attr("r", function(d) { d.weight = links.filter(function(l) {
+            return l.source.index == d.index || l.target.index == d.index
+            }).length
+            var minRadius = 10;
+            return minRadius + (d.weight * 2);
+        })
+        .classed("circle_1", function(d)
+                            {test=size_(d)
+                                c=(size_(d) >0 && size_(d)<=2)
+                                return c
+                            })
+        .classed("circle_2", function(d)
+                            { test=size_(d)
+                                c=(size_(d) >2 && size_(d)<=5 )
+                                return c
+                            })
+         .classed("circle_3", function(d)
+                            { test=size_(d)
+                                c=(size_(d) >5)
+                                return c
+                            })
+    //    .on("dblclick",dragended)
+        //  .classed("pin",dragended(d).fixed = true)
+        // .attr("class",
+        // function(d){
+        //     d.weight = links.filter(function(l) {
+        //     return l.source.index == d.index || l.target.index == d.index
+        //     }).length
+        // if (d.weight >0 && d.weight<=14){
+
+        
+        //     return "circle_1"}
+
+        // if (d.weight >=15 && d.weight<=20){
+
+        
+        //     return "circle_2"}
+
+        // if(d.weight >20){
+
+        
+        // return "circle_3"}
+        // })
+
+        
+
+
+
+
+ node.append("text")
+      .text(function(d) {
+       var label_n=d.name;
+        return label_n   
+      })
+      .attr('x', 20)
+      .attr('y', -10)
+      .style("font-weight", "bold");
+node.append("title")
+      .text(function(d) { return d.name });
+
+  // add the curvy lines
+  function tick() {
+      path.attr("d", function(d) {
+          var dx = d.target.x - d.source.x,
+              dy = d.target.y - d.source.y,
+              dr = Math.sqrt(dx * dx + dy * dy);
+          return "M" +
+              d.source.x + "," +
+              d.source.y + "A" +
+              dr + "," + dr + " 0 0,1 " +
+              d.target.x + "," +
+              d.target.y;
+      });
+
+      node.attr("transform", function(d) {
+          return "translate(" + d.x + "," + d.y + ")"; 
+      });
+  };
+
+  function dragstarted(d) {
+      if (!d3.event.active) force.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+  };
+
+  function dragged(d) {
+      d.fx = d3.event.x;
+      d.fy = d3.event.y;
+  };
+
+  function dragended(d) {
+      if (!d3.event.active) force.alphaTarget(0);
+      d.fixed = true
+      if (d.fixed == true) {
+          d.fx = d.x;
+          d.fy = d.y;
+      
+      
+ d3.select(this) 
+          .select("circle")
+          .attr("class", "pin");}
+          else {
+          d.fx = null;
+          d.fy = null;
+      }
+ 
+  };
+  function releasenode(d) {
+                  d.fx = undefined;
+				  d.fy = undefined;
+                  d3.select(this) 
+          .select("circle")
+          .classed("circle_1", function(d)
+                            {test=size_(d)
+                                c=(size_(d) >0 && size_(d)<=2)
+                                return c
+                            })
+        .classed("circle_2", function(d)
+                            { test=size_(d)
+                                c=(size_(d) >2 && size_(d)<=5 )
+                                return c
+                            })
+         .classed("circle_3", function(d)
+                            { test=size_(d)
+                                c=(size_(d) >5)
+                                return c
+                            })            }
+//                             function clickHandler (d, i) {
+//   // reset all circle to blue
+//   d3.selectAll('circle') //<-- or slap a class name on your circles and use that
+//     .style('fill', 'blue');
+
+//   // set selected one to yellow
+//   d3.select(this)
+//     .style('fill', 'yellow');
+// }
+// add username --> sawid
+}).catch(function(error) {
+  console.log(error);
+});
+
+</script>
+</body>
+</html>
