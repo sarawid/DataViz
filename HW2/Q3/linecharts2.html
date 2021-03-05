@@ -54,13 +54,34 @@ circle {
 
 <body>
 
-    <div>First SVG</div>
+    <div style="
+    font-size: 10px;
+    position: relative;
+    left: 250;
+    bottom : -5;
+"> Number of Ratings 2016-2020</div>
 <div id="svg1"></div>
-<div>Second SVG</div>
+<div style="
+    font-size: 10px;
+    position: relative;
+    left: 230;
+    bottom : -5;
+">Number of Ratings 2016-2020 with Rankings</div>
 <div id="svg2"></div>
-<div>Thord SVG</div>
+<div style="
+    font-size: 10px;
+    position: relative;
+    left: 230;
+    bottom : -5;
+
+" >Number of Ratings 2016-2020 (Square root Scale)</div>
 <div id="svg3"></div>
-<div>Fourth SVG</div>
+<div style="
+    font-size: 10px;
+    position: relative;
+    left: 230;
+    bottom : -5;
+">Number of Ratings 2016-2020 (Log Scale)</div>
 <div id="svg4"></div>
 
 
@@ -86,10 +107,10 @@ function draw(area) {
     var y = null
 
     switch(area) {
-        case "#svg3":
+        case "#svg4":
             y  = d3.scaleLog().range([height, 0]);
             break;
-        case "#svg4":
+        case "#svg3":
             y  = d3.scaleSqrt().range([height, 0]);
             break;
         default:
@@ -125,7 +146,18 @@ function draw(area) {
             .attr("transform", "translate(" + 50 + "," + 10 + ")")
             .append("g")
         
-        // data.columns.slice(1)
+        if (area=="#svg4"){
+            // return
+            chart.append("text")
+            .attr("class", "user label")
+            .attr("y", 180)
+            .attr("x",10)
+            .attr("dy", "2em")
+            // .style("text-anchor", "end")
+            .style("font-size", "12px")
+            .text("sawid3");
+        }
+
         var slices=color.domain().map(function (id){
             // console.log(id)
             return{
@@ -147,10 +179,6 @@ function draw(area) {
 
         
 
-        // data.forEach(function(d) {
-
-        // 	d.close = +d.close;
-        // });
         x.domain(d3.extent(data, function(d) { return timeConv(d.date); }));
         y.domain([1, d3.max(slices, function(c) {
             return d3.max(c.values, function(d) {
@@ -160,22 +188,15 @@ function draw(area) {
 
 
 
-    //----------------------------LINES-----------------------------//
 
-
-    //  let id = 0;
-    // const ids = function () {
-    //     return "line-"+id++;
-    // }  
-
-    //-------------------------2. DRAWING---------------------------//
-    //-----------------------------AXES-----------------------------//
         chart.append("g")
             .attr("class", "xaxis")
             .attr("transform", "translate(50," + 170 + ")")
-            .call(xaxis.tickFormat(d3.timeFormat("%b %y"))).style("font-size", "6px");
+            .call(xaxis.tickFormat(d3.timeFormat("%b %y"))).style("font-size", "6px")
+            // .style("text-anchor", "middle")
+            // .text("Month");
 
-            chart.append("g")
+        chart.append("g")
             .attr("class", "yaxis")
             .attr("transform", "translate(50,10)")  
             // add 10 down
@@ -183,9 +204,25 @@ function draw(area) {
             .append("text")
             .attr("transform", "rotate(-90)")
             .attr("dy", ".75em")
-            // .attr("y", 6)
+
+        chart.append("text")
+            .attr("class", "x label")
+            .attr("text-anchor", "middle")
+            .attr("x", width/2+ margin.left+8)
+            .attr("y", height +34)
+            .style("font-size", "9px")
+            .text("Month");
+        
+        chart.append("text")
+            .attr("class", "y label")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -1)
+            .attr("x",-40)
+            .attr("dy", "2em")
             .style("text-anchor", "end")
-            .text("Frequency");
+            .style("font-size", "8px")
+            .text("Num of Ratings");
+
 
     //----------------------------LINES-----------------------------//
         const lines = chart.selectAll(".lines")
@@ -224,9 +261,6 @@ function draw(area) {
                 return color(d.id);
             })
 
-    // const ghost_lines = lines.append("path")
-    //     .attr("class", "ghost-line")
-    //     .attr("d", function(d) { return line(d.values); });    
 
         filter_func = (d, i, type) => {
             if(i <= 1) return false
