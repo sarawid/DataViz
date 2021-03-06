@@ -51,7 +51,38 @@ circle {
 </style>
 <!-- <svg width="960" height="500"></svg> -->
 <!-- Body tag is where we will append our SVG and SVG objects-->
+
 <body>
+
+    <div style="
+    font-size: 10px;
+    position: relative;
+    left: 250;
+    bottom : -5;
+"> Number of Ratings 2016-2020</div>
+<div id="svg1"></div>
+<div style="
+    font-size: 10px;
+    position: relative;
+    left: 230;
+    bottom : -5;
+">Number of Ratings 2016-2020 with Rankings</div>
+<div id="svg2"></div>
+<div style="
+    font-size: 10px;
+    position: relative;
+    left: 230;
+    bottom : -5;
+
+" >Number of Ratings 2016-2020 (Square root Scale)</div>
+<div id="svg3"></div>
+<div style="
+    font-size: 10px;
+    position: relative;
+    left: 230;
+    bottom : -5;
+">Number of Ratings 2016-2020 (Log Scale)</div>
+<div id="svg4"></div>
 
 
 <!-- Load in the d3 library -->
@@ -61,59 +92,74 @@ circle {
 
 <script>
 // some of figure a  code script from: https://bl.ocks.org/d3noob/ecf9e1ddeb48d0c4fbb29d03c08660bb
-timeConv = d3.timeParse("%Y-%m-%d")
-
-var	margin = {top: 30, right: 20, bottom: 30, left: 30},
-	width = 500 - margin.left - margin.right,
-    height = 220 - margin.top - margin.bottom;
-    
-var	x  = d3.scaleTime().range([0, width],0.5);
-var	y  = d3.scaleLinear().range([height, 0]);
-color= d3.scaleOrdinal(d3.schemeCategory10)
-
-// Define the axes
-// var	xAxis = d3.svg.axis().scale(x)
-// 	.orient("bottom").ticks(5);
-
-// var	yAxis = d3.svg.axis().scale(y)
-// 	.orient("left").ticks(5);
- yaxis = d3.axisLeft()
-    // .ticks((slices[0].values).length)
-    .scale(y);
-
- xaxis = d3.axisBottom()
-    .scale(x).ticks(15)
+// timeConv = d3.timeParse("%Y-%m-%d")
 
 
-line = d3.line()
-    .x(function(d) { return x(d.date); })
-    .y(function(d) { return y(d.measurement); });
 
 // Adds the svg canvas
+function draw(area) {        
+    var	margin = {top: 30, right: 20, bottom: 30, left: 30},
+    width = 500 - margin.left - margin.right,
+    height = 220 - margin.top - margin.bottom;
 
-    
-    
-    var	chart = d3.select("body")
-	.append("svg")
-		.attr("width", width + margin.left + margin.right+40)
-		.attr("height", height + margin.top + margin.bottom)
-	.append("g")
-		.attr("transform", "translate(" + 30 + "," + margin.top + ")");
-    // dataset=[]
+    timeConv = d3.timeParse("%Y-%m-%d")
+    var	x  = d3.scaleTime().range([0, width],0.5);
+    var y = null
 
-        d3.csv("boardgame_ratings.csv", function( data)
-       { color.domain(d3.keys(data).filter(function(key) {
-      return key !== "date" ;
-            }));
+    switch(area) {
+        case "#svg4":
+            y  = d3.scaleLog().range([height, 0]);
+            break;
+        case "#svg3":
+            y  = d3.scaleSqrt().range([height, 0]);
+            break;
+        default:
+            y  = d3.scaleLinear().range([height, 0]);      
+    }
+
+
+
+    color= d3.scaleOrdinal(d3.schemeCategory10)
+
+    d3.csv("boardgame_ratings.csv", function( data) { 
+        color.domain(d3.keys(data).filter(function(key) {
+            return key !== "date" ;
+        }));
         return data
-       }).then(function(data) {
+    }).then(function(data) {
+        yaxis = d3.axisLeft()
+            .scale(y).ticks(15);
 
+        xaxis = d3.axisBottom()
+            .scale(x).ticks(15)
+
+
+        line = d3.line()
+            .x(function(d) { return x(d.date); })
+            .y(function(d) { return y(d.measurement); });
+
+
+        var	chart = d3.select(area)
+            .append("svg")
+            .attr("width", width + margin.left + margin.right+100)
+            .attr("height", height + margin.top + margin.bottom)
+            .attr("transform", "translate(" + 50 + "," + 10 + ")")
+            .append("g")
         
-        // data.columns.slice(1)
+        if (area=="#svg4"){
+            // return
+            chart.append("text")
+            .attr("class", "user label")
+            .attr("y", 180)
+            .attr("x",10)
+            .attr("dy", "2em")
+            // .style("text-anchor", "end")
+            .style("font-size", "12px")
+            .text("sawid3");
+        }
+
         var slices=color.domain().map(function (id){
-
             // console.log(id)
-
             return{
 
                 id: id,
@@ -123,106 +169,172 @@ line = d3.line()
                     return {
                         date: timeConv(d.date),
                         measurement: +d[id],
+                        id: id
                         
                     }
                 })
             }
         });
-          console.log(slices);  //Log the error.
- 
-     
+        console.log(slices);  //Log the error.
 
-	// data.forEach(function(d) {
-
-	// 	d.close = +d.close;
-    // });
-        x.domain(d3.extent(data, function(d) { return timeConv(d.date); }));
         
-        y.domain([0,  d3.max(slices, function(c) {
 
-                    return d3.max(c.values, function(d) {
-
-                        return d.measurement });
-                        })
-                    ]);;
-
-
-
-//----------------------------LINES-----------------------------//
+        x.domain(d3.extent(data, function(d) { return timeConv(d.date); }));
+        y.domain([1, d3.max(slices, function(c) {
+            return d3.max(c.values, function(d) {
+                return d.measurement });
+            })
+        ]);;
 
 
-//  let id = 0;
-// const ids = function () {
-//     return "line-"+id++;
-// }  
 
-//-------------------------2. DRAWING---------------------------//
-//-----------------------------AXES-----------------------------//
-chart.append("g")
-    .attr("class", "axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xaxis.tickFormat(d3.timeFormat("%b %y"))).style("font-size", "6px");
 
-    chart.append("g")
-    .attr("class", "axis")
-    .call(yaxis).style("font-size", "6px")
-    .append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("dy", ".75em")
-    .attr("y", 6)
-    .style("text-anchor", "end")
-    .text("Frequency");
+        chart.append("g")
+            .attr("class", "xaxis")
+            .attr("transform", "translate(50," + 170 + ")")
+            .call(xaxis.tickFormat(d3.timeFormat("%b %y"))).style("font-size", "6px")
+            // .style("text-anchor", "middle")
+            // .text("Month");
 
-//----------------------------LINES-----------------------------//
-const lines = chart.selectAll(".lines")
-    .data(slices)
-    .enter()
-    .append("g");
+        chart.append("g")
+            .attr("class", "yaxis")
+            .attr("transform", "translate(50,10)")  
+            // add 10 down
+            .call(yaxis).style("font-size", "6px")
+            .append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("dy", ".75em")
 
-    lines.append("path")
-    // .attr("class", "line")
-    .attr("d", function(d) { 
-        if ( (d.id).substring((d.id).length - 4)!='rank'){
-         return line(d.values); }
+        chart.append("text")
+            .attr("class", "x label")
+            .attr("text-anchor", "middle")
+            .attr("x", width/2+ margin.left+8)
+            .attr("y", height +34)
+            .style("font-size", "9px")
+            .text("Month");
+        
+        chart.append("text")
+            .attr("class", "y label")
+            .attr("transform", "rotate(-90)")
+            .attr("y", -1)
+            .attr("x",-40)
+            .attr("dy", "2em")
+            .style("text-anchor", "end")
+            .style("font-size", "8px")
+            .text("Num of Ratings");
+
+
+    //----------------------------LINES-----------------------------//
+        const lines = chart.selectAll(".lines")
+            .data(slices)
+            .enter()
+            .append("g");
+
+        lines.append("path")
+        // .attr("class", "line")
+            .attr("transform", "translate(50,10)")
+            .attr("d", function(d) { 
+                if ( (d.id).substring((d.id).length - 4)!='rank'){
+                    return line(d.values); 
+                }
+            })
+            .style("stroke", function(d) {
+                return color(d.id);
+            })
+            .style("fill", "none");
+
+        lines.append("text")
+        // .attr("class","label")
+            .datum(function(d) {
+                return {
+                    id: d.id,
+                    value: d.values[d.values.length - 1]}; })
+            .attr("transform", function(d) {
+                    return "translate(" + (x(d.value.date) - 1)  
+                    + "," + (y(d.value.measurement)+10  )+ ")"; 
+                })
+            .attr("x", 52)
+            .attr("dy", ".35em")
+            .text(function(d) {   if ( (d.id).substring((d.id).length - 4)!='rank'){return(d.id).substring(0, (d.id).length - 6)} })
+            .style("font-size", "6px")
+            .style("fill", function(d) {
+                return color(d.id);
+            })
+
+
+        filter_func = (d, i, type) => {
+            if(i <= 1) return false
+            game = d.id.split("=")[0]
+            game_type = d.id.split("=")[1]
+            games = ["Catan", "Codenames", "Terraforming Mars", "Gloomhaven"]
+            if(!games.includes(game))
+                return false;
+            if ( game_type==type && i > 0){
+                if((i-2)%3==0) return true;
+            }
+            return false;
+        }
+        if(area==="#svg2" || area==="#svg3" || area==="#svg4"){
+            chart.append("circle").attr("cx",535).attr("cy",160).attr("r", 10).style("fill", "black")
+            chart.append("text").attr("x", 528).attr("y", 160).text("rank").style("font-size", "8px").attr("alignment-baseline","middle").style("fill", "white")
+            chart.append("text").attr("x", 510).attr("y", 180).text("BoardGameGeek Rank").style("font-size", "9px").attr("alignment-baseline","middle")
+            g = lines.append("g").selectAll("circle")
+            .data(function(d,i){
+                return d.values
+            })
+
+            g.enter()
+            .append("circle")
+            .attr("transform", "translate(50,10)")
+            .filter((d,i) => {
+                return filter_func(d,i,"count")
+            })
+            .attr("r", 10)
+            .attr("cx", function(dd){return x(dd.date)})
+            .attr("cy", function(dd){return y(dd.measurement)})
+            .attr("fill", (d)=> {
+                return color(d.id);
+            })
+            .attr("stroke", (d) => {
+                return color(d.id);
+            })
+
+
+            g.enter().append("text")
+            .filter((d,i) => {
+                return filter_func(d,i,"count")
+            })
+            .style("font-size", "7px")
+            .style("text-align", "center")
+            .style("width", "20px")
+            .style("text-anchor", "middle")
+            .style("fill", "white")
+            .attr("transform", function(d) { return "translate( " + (x(d.date)+50) + "," + (y(d.measurement)+10) + ")"; })
+            .text( (d,i)=> {
+                game = d.id.split("=")[0]
+                rank_slice = slices.filter((slice) => slice.id == game + "=rank")[0]
+                rank = rank_slice.values.filter((r) =>{
+                    d1 = d.date / 1000 | 0
+                    d2 = r.date / 1000 | 0
+                    return d1 == d2
+                })[0]
+                return rank.measurement;             
+            })
+        }
+        
+        
+
         })
-         .style("stroke", function(d) {
-      return color(d.id);
-    })
-    .style("fill", "none");
-
-    lines.append("text")
-    // .attr("class","label")
-    .datum(function(d) {
-        return {
-            id: d.id,
-            value: d.values[d.values.length - 1]}; })
-    .attr("transform", function(d) {
-            return "translate(" + (x(d.value.date) - 1)  
-            + "," + (y(d.value.measurement)  )+ ")"; })
-    .attr("x", 3)
-    .attr("dy", ".35em")
-    .text(function(d) {   if ( (d.id).substring((d.id).length - 4)!='rank'){return(d.id).substring(0, (d.id).length - 6)} })
-    .style("font-size", "6px")
-    .style("fill", function(d) {
-      return color(d.id);
-    })
-
-// const ghost_lines = lines.append("path")
-//     .attr("class", "ghost-line")
-//     .attr("d", function(d) { return line(d.values); });    
-
-
-
-    
-    
-
-       })
-    
+}
 
 
 
 
 
+chart_1= draw('#svg1')
+chart_2=draw('#svg2')
+chart_3=draw('#svg3')
+chart_3=draw('#svg4')
 
 
 

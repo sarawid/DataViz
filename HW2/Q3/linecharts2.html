@@ -275,6 +275,9 @@ function draw(area) {
             return false;
         }
         if(area==="#svg2" || area==="#svg3" || area==="#svg4"){
+            chart.append("circle").attr("cx",535).attr("cy",160).attr("r", 10).style("fill", "black")
+            chart.append("text").attr("x", 528).attr("y", 160).text("rank").style("font-size", "8px").attr("alignment-baseline","middle").style("fill", "white")
+            chart.append("text").attr("x", 510).attr("y", 180).text("BoardGameGeek Rank").style("font-size", "9px").attr("alignment-baseline","middle")
             g = lines.append("g").selectAll("circle")
             .data(function(d,i){
                 return d.values
@@ -305,6 +308,7 @@ function draw(area) {
             .style("text-align", "center")
             .style("width", "20px")
             .style("text-anchor", "middle")
+            .style("fill", "white")
             .attr("transform", function(d) { return "translate( " + (x(d.date)+50) + "," + (y(d.measurement)+10) + ")"; })
             .text( (d,i)=> {
                 game = d.id.split("=")[0]
