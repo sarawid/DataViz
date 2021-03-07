@@ -171,7 +171,10 @@ d3.csv("average-rating.csv", function( data) {
         d3.select(this).transition()
         .duration(1)
         .attr("r", 10);
-        tooltip.text("Sampley key: " + d.key); return tooltip.style("visibility", "visible");
+        tooltip.text("Sampley key: " + d.key); 
+        mouseOver(data, d)
+        return tooltip.style("visibility", "visible");
+        
       })
       .on("mousemove", function(){
         return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
@@ -182,16 +185,55 @@ d3.csv("average-rating.csv", function( data) {
         .attr("r", 3);
         return tooltip.style("visibility", "hidden");
       });
-    function mouseOver(){
-      year="2015"
-      rating=d.key
-      // get top 5 games by user ratings where year is 2015 and average ratings is 7
-      hover_date=data.filter((x)=>parseInt(x.year)==year && parseInt(x.average_rating)== parseInt(rating))
-      hover_date = hover_date.sort((x,y) => parseInt(y.users_rated) - parseInt(x.users_rated)).slice(0, 5)
-
-    }
 
 })
+
+function mouseOver(data, d){
+  if (d.values[0]){
+    year=(d.values)[0].values[0].values[0].year
+    rating=d.key
+      
+    console.log("year " + year + " rating" + rating)
+    // get top 5 games by user ratings where year is 2015 and average ratings is 7
+    hover_date=data.filter((x)=>parseInt(x.year)==year && parseInt(x.average_rating)== parseInt(rating))
+    hover_date = hover_date.sort((x,y) => parseInt(y.users_rated) - parseInt(x.users_rated)).slice(0, 5)
+  
+    var hover_nest = d3.nest()
+        .key(function(d){return d.name;})
+        .key(function(d){return d.users_rated;}) 
+    
+    var yy = d3.scaleBand()
+      .range([height, 0])
+      .padding(0.1);
+
+    var xx = d3.scaleLinear().range([0, width]);
+
+    bar=svg.selectAll(".bar")
+        .data(hover_nest)
+        .enter().append("rect")
+        .attr("class", "bar")
+        //.attr("x", function(d) { return x(d.sales); })
+        .attr("width", function(d) {return xx(d.users_rated); } )
+        .attr("y", function(d) { return yy(d.name); })
+        .attr("height", y.bandwidth());
+
+    // add the x Axis
+    bar.append("g")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+
+    // add the y Axis
+    bar.append("g")
+      .call(d3.axisLeft(y));
+
+
+
+
+
+
+
+  }
+}
 </script>
 
 </body>
