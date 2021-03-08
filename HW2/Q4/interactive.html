@@ -180,6 +180,7 @@ d3.csv("average-rating.csv", function( data) {
         return tooltip.style("top", (d3.event.pageY-10)+"px").style("left",(d3.event.pageX+10)+"px");
       })
       .on("mouseout", function(){
+        d3.select("#bar").remove()
         d3.select(this).transition()
         .duration(1)
         .attr("r", 3);
@@ -189,46 +190,109 @@ d3.csv("average-rating.csv", function( data) {
 })
 
 function mouseOver(data, d){
+  d3.select("#bar").remove()
   if (d.values[0]){
     year=(d.values)[0].values[0].values[0].year
     rating=d.key
       
     console.log("year " + year + " rating" + rating)
     // get top 5 games by user ratings where year is 2015 and average ratings is 7
-    hover_date=data.filter((x)=>parseInt(x.year)==year && parseInt(x.average_rating)== parseInt(rating))
-    hover_date = hover_date.sort((x,y) => parseInt(y.users_rated) - parseInt(x.users_rated)).slice(0, 5)
+    hover_data=data.filter((x)=>parseInt(x.year)==year && parseInt(x.average_rating)== parseInt(rating))
+    hover_data = hover_data.sort((x,y) => parseInt(y.users_rated) - parseInt(x.users_rated)).slice(0, 5)
   
     var hover_nest = d3.nest()
-        .key(function(d){return d.name;})
-        .key(function(d){return d.users_rated;}) 
+        .key(function(dd){return dd.name;})
+        .key(function(dd){return parseInt(dd.users_rated);}).sortKeys(d3.descending)
+        .entries(hover_data)
+        .sort()
+        
     
+
+
+    var	margin1= {top: 50, right: 50, bottom: 50, left: 50},
+        width1= 700 - margin1.left - margin1.right,
+        height1 = 220 - margin1.top - margin1.bottom;
     var yy = d3.scaleBand()
-      .range([height, 0])
+      .range([height1, 0])
       .padding(0.1);
+    var xx = d3.scaleLinear().range([0, width1]);
 
-    var xx = d3.scaleLinear().range([0, width]);
+    xx.domain([0, d3.max(hover_nest, function(e){ return e.values[0].key; })])
+    yy.domain(hover_nest.map(function(e) { return e.key; }));
 
-    bar=svg.selectAll(".bar")
+    var svg1 = d3.select("body")
+    .append("svg")
+      .attr("id", "bar")
+      .attr("width", width1 + margin1.left + margin1.right)
+      .attr("height", height1 + margin1.top + margin1.bottom)
+      .append("g")
+      .attr("transform", "translate(" +margin1.left + "," + 10 +  ")");
+
+    bar= svg1.selectAll(".bar")
         .data(hover_nest)
         .enter().append("rect")
-        .attr("class", "bar")
+        .attr("fill", "blue")
         //.attr("x", function(d) { return x(d.sales); })
-        .attr("width", function(d) {return xx(d.users_rated); } )
-        .attr("y", function(d) { return yy(d.name); })
-        .attr("height", y.bandwidth());
+        .attr("width", function(f) {return xx(parseInt(f.values[0].key)); } )
+        .attr("y", function(f) { return yy(f.key); })
+        .attr("height", yy.bandwidth())
+        .attr("transform", "translate(" +100 + "," + 0 +  ")");
 
     // add the x Axis
-    bar.append("g")
-        .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+    svg1.append("g")
+        .attr("transform", "translate(" +100 + "," + height1 +  ")")
+        .call(d3.axisBottom(xx))
+        // .selectAll("text")
+        // .attr("transform", "translate(-10,0)rotate(-45)")
+        // .style("text-anchor", "end");
 
     // add the y Axis
-    bar.append("g")
-      .call(d3.axisLeft(y));
+    svg1.append("g")
+      .attr("transform", "translate("+ 100 +",0)")
+      .call(d3.axisLeft(yy))
+      // .ticks((yy, function(z){return z.substring(0, 10)})
+      // select the first 10 characters of the labels
+      .selectAll('.tick text')
+      .style('text-anchor', 'end')
+        .call(trim, yy.bandwidth())
 
+    function trim(text, width) {
+      text.each(function() {
+        gameName = d3.select(this).text();
+        if(gameName.length > 10){
+            gameName = gameName.slice(0,10)
+        }
+        d3.select(this).text(gameName)
+      })
+    }
 
+    // Add X axis label
+    svg1.append("text")
+          .attr("class", "x label")
+          .style("text-anchor", "middle")
+          .attr("x", (width1+ margin1.left+margin1.right)/2-100)
+          .attr("y", height1 + margin1.bottom)
+          .text("Number of Users");
 
-
+    // Add the Y Axis Label
+    svg1.append("text")
+          .attr("class", "y label")
+          .attr("text-anchor", "end")
+          .attr("y", margin1.left)
+          .attr("x",0 - (height1/ 2))
+          .attr("transform", "rotate(-90)")
+          .text("Games");
+    
+    svg1.append("g")			
+      .attr("class", "grid")
+      .attr("transform", "translate("+100+"," + 120 + ")")
+      .call(make_x_gridlines()
+          .tickSize(-height1)
+          .tickFormat(""))
+    function make_x_gridlines() {		
+      return d3.axisBottom(xx)
+        // .ticks(5)
+    }
 
 
 
