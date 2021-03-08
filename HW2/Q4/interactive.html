@@ -93,7 +93,30 @@ d3.csv("average-rating.csv", function( data) {
     .attr("height", height + margin.top + margin.bottom)
     .attr("transform", "translate(" + 50 + "," + 10 + ")")
     .append("g")
+//----------------LEGEND------------------------------------//
+  var legend = chart.selectAll('.year')
+      .data(nested_data)
+      .enter().append('g')
+      .attr("class", "legend")
+      .attr("height", 100)
+      .attr("width", 100)
+      .attr('transform', 'translate(-20,50)');
 
+        
+
+  legend.append('circle')
+      .attr('cx', width - 20)
+      .attr('cy', function(d){ return i *  21;})
+      .attr('r', '5px')
+      .style("stroke", function(d) { 
+          return color(d.key); })
+      .style("fill", function(d) { 
+          return  color(d.key); })
+
+  legend.append('text')
+      .attr('x', width - 8)
+      .attr('y', function(d){ return (i *  21) + 5;})
+      .text(function(d){ return d.key; });
 
 // ---------------------AXIS--------------------------------//
   chart.append("g")
@@ -132,16 +155,16 @@ d3.csv("average-rating.csv", function( data) {
 
   chart.append("text")
       .attr("class", "title")
-      .attr("x", 170)
-      .attr("y", -10)
+      .attr("x", 270)
+      .attr("y", 7)
       .attr("text-anchor", "middle")
       .style("font-size", "9px")
       .style("font-weight", "bold")
       .text("Board Game Ratings 2015-2019");
 
   chart.append("text")
-  .attr("x", (width / 2))
-  .attr("y", 0 - (margin.top / 8))
+  .attr("x", 279)
+  .attr("y", 19)
   .attr("text-anchor", "middle")
   .style("font-size", "10px")
   .text("sawid3");
