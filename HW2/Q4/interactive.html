@@ -112,6 +112,47 @@ d3.csv("average-rating.csv", function( data) {
     .attr("transform", "rotate(-90)")
     .attr("dy", ".75em")
 
+  chart.append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "end")
+    .attr("y", 20)
+    .attr("x",0 - (height / 2))
+    .attr("transform", "rotate(-90)")
+    .text("Count")
+    .style("font-size", "9px");
+
+
+  chart.append("text")
+        .attr("class", "x label")
+        .style("text-anchor", "middle")
+        .attr("x", 290)
+        .attr("y", 190)
+        .text("Rating")
+        .style("font-size", "9px");
+
+  chart.append("text")
+      .attr("class", "title")
+      .attr("x", 170)
+      .attr("y", -10)
+      .attr("text-anchor", "middle")
+      .style("font-size", "9px")
+      .style("font-weight", "bold")
+      .text("Board Game Ratings 2015-2019");
+
+  chart.append("text")
+  .attr("x", (width / 2))
+  .attr("y", 0 - (margin.top / 8))
+  .attr("text-anchor", "middle")
+  .style("font-size", "10px")
+  .text("sawid3");
+
+
+
+
+
+
+
+
 
 // ---------------------LINES--------------------------------//
   const lines = chart.selectAll(".lines")
@@ -204,18 +245,18 @@ function mouseOver(data, d){
         .key(function(dd){return dd.name;})
         .key(function(dd){return parseInt(dd.users_rated);}).sortKeys(d3.descending)
         .entries(hover_data)
-        .sort()
+        .reverse()
         
     
 
 
-    var	margin1= {top: 50, right: 50, bottom: 50, left: 50},
+    var	margin1= {top: 60, right: 50, bottom: 50, left: 50},
         width1= 700 - margin1.left - margin1.right,
         height1 = 220 - margin1.top - margin1.bottom;
     var yy = d3.scaleBand()
       .range([height1, 0])
       .padding(0.1);
-    var xx = d3.scaleLinear().range([0, width1]);
+    var xx = d3.scaleLinear().range([0, 500]);
 
     xx.domain([0, d3.max(hover_nest, function(e){ return e.values[0].key; })])
     yy.domain(hover_nest.map(function(e) { return e.key; }));
@@ -236,33 +277,28 @@ function mouseOver(data, d){
         .attr("width", function(f) {return xx(parseInt(f.values[0].key)); } )
         .attr("y", function(f) { return yy(f.key); })
         .attr("height", yy.bandwidth())
-        .attr("transform", "translate(" +100 + "," + 0 +  ")");
+        .attr("transform", "translate(" +100 + "," + 10 +  ")");
 
     // add the x Axis
     svg1.append("g")
-        .attr("transform", "translate(" +100 + "," + height1 +  ")")
+        .attr("transform", "translate(" +100 + "," + 120 + ")")
         .call(d3.axisBottom(xx))
-        // .selectAll("text")
-        // .attr("transform", "translate(-10,0)rotate(-45)")
-        // .style("text-anchor", "end");
 
     // add the y Axis
     svg1.append("g")
-      .attr("transform", "translate("+ 100 +",0)")
+      .attr("transform", "translate("+ 100 +",10)")
       .call(d3.axisLeft(yy))
-      // .ticks((yy, function(z){return z.substring(0, 10)})
-      // select the first 10 characters of the labels
       .selectAll('.tick text')
       .style('text-anchor', 'end')
         .call(trim, yy.bandwidth())
 
     function trim(text, width) {
       text.each(function() {
-        gameName = d3.select(this).text();
-        if(gameName.length > 10){
-            gameName = gameName.slice(0,10)
+        game = d3.select(this).text();
+        if(game.length > 10){
+            game = game.slice(0,10)
         }
-        d3.select(this).text(gameName)
+        d3.select(this).text(game)
       })
     }
 
@@ -270,28 +306,42 @@ function mouseOver(data, d){
     svg1.append("text")
           .attr("class", "x label")
           .style("text-anchor", "middle")
-          .attr("x", (width1+ margin1.left+margin1.right)/2-100)
+          .attr("x", (width1+ margin1.left+margin1.right)/2)
           .attr("y", height1 + margin1.bottom)
-          .text("Number of Users");
+          .text("Number of Users")
+          .style("font-size", "10px");
 
     // Add the Y Axis Label
     svg1.append("text")
           .attr("class", "y label")
           .attr("text-anchor", "end")
-          .attr("y", margin1.left)
+          .attr("y", margin1.left-12)
           .attr("x",0 - (height1/ 2))
           .attr("transform", "rotate(-90)")
-          .text("Games");
+          .text("Games")
+          .style("font-size", "10px");
+    //Add the Label
+    const hover_year = year
+    const hover_rating= rating  ;
+
+    var title = svg1.append("g")
+            .attr("class","title")
+            .attr("id","bars_title")
+            .append("text")
+                .attr("transform", "translate(200,1)")
+                .text("Top 5 Most Rated Games of "+ hover_year+ " with Rating  "+ hover_rating)
+                .style("font-size", "10px");
     
+
+
     svg1.append("g")			
       .attr("class", "grid")
       .attr("transform", "translate("+100+"," + 120 + ")")
-      .call(make_x_gridlines()
+      .call(gridlines()
           .tickSize(-height1)
           .tickFormat(""))
-    function make_x_gridlines() {		
+    function gridlines() {		
       return d3.axisBottom(xx)
-        // .ticks(5)
     }
 
 
